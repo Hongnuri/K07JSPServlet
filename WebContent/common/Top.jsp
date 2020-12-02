@@ -7,7 +7,7 @@
 		-->
 		<img 
 			src="http://www.ikosmo.co.kr/images/common/logo_center_v2.jpg" 
-			alt="한국소프트웨어인재개발원" />
+			alt="한국소프트웨어인재개발원" width="150" />
 	</div>
 	<div class="top_menu">
 		<!-- 탑메뉴 -->
