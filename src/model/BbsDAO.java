@@ -8,7 +8,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.Vector;
 
+import javax.naming.Context;
+import javax.naming.InitialContext;
 import javax.servlet.ServletContext;
+import javax.sql.DataSource;
 
 public class BbsDAO {
 
@@ -41,6 +44,7 @@ public class BbsDAO {
 		내장객체는 javax.servlet.ServletContext타입으로 
 		정의되었으므로 매개변수를 이와같이 정의해준다. 
 	 */
+	
 	public BbsDAO(ServletContext ctx) {
 		try {
 			Class.forName(ctx.getInitParameter("JDBCDriver"));
@@ -49,6 +53,22 @@ public class BbsDAO {
 			con = DriverManager.getConnection(
 					ctx.getInitParameter("ConnectionURL"),id,pw);
 			System.out.println("DB연결성공");
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	/*
+		생성자 3 : 커넥션 풀(DBCP) 을 이용한 DB연결
+	*/
+	public BbsDAO() {
+		try {
+			Context initctx = new InitialContext();
+			Context ctx = (Context)initctx.lookup("java:comp/env");
+			DataSource source = (DataSource)ctx.lookup("jdbc/myoracle"); 
+			con = source.getConnection();
+			
+			System.out.println("DBCP연결성공");
 		}
 		catch (Exception e) {
 			e.printStackTrace();
@@ -425,4 +445,6 @@ public List<BbsDTO> selectListPageSearch(Map<String,Object> map){
 		}
 		return bbs;
 }
+
+
 }
