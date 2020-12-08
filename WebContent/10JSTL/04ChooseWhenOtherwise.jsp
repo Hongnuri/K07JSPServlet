@@ -97,7 +97,7 @@
 	<c:if test="${not empty param.userid }"> 
 		<c:choose>
 			<c:when test="${my:memberLogin(param.userid,param.userpw,initParam.JDBCDriver,initParam.ConnectionURL)}">
-				${param.userid } 회원님, 반갑습니다.
+				${param.userid } 회원님, 반갑습니다. 
 			</c:when>
 			<c:otherwise>
 				넌 회원이 아니시군-_-;

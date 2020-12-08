@@ -160,7 +160,7 @@
 	<%
 		String nullStr = null;
 		String emptyStr = "";
-		Integer[] lengthZero = new Integer[0];
+		Integer[] lengthZero = new Integer[0]; 
 		Collection sizeZero = new Vector();
 	%>	
 	

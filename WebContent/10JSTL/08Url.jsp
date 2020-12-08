@@ -47,10 +47,11 @@
 	<c:url value="/10JSTL/inc/ImportPage.jsp" var="makeUrl">
 	<%
 	String id = request.getParameter("id");
+	String pw = request.getParameter("pw");
 	String paramId="", paramPass="", paramName="";
 	if(id!=null){
 		MemberDAO dao = new MemberDAO();
-		Map<String, String> maps = dao.getMemberMap(id);
+		Map<String, String> maps = dao.getMemberMap(id, pw);
 		paramId = maps.get("id");
 		paramName = maps.get("name");
 		paramPass = maps.get("pass");

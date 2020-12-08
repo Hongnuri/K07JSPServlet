@@ -147,7 +147,7 @@
 		</ul>
 		
 		<h2>숫자를 0으로 나누면 INFINITE</h2>
-		\${10 div 0} : ${10 div 0}
+		\${10 div 0} : ${10 div 0} 
 		
 		<h2>EL변수에 값 할당시 [톰켓8.0 부터는 정상. 이전버전은 에러]</h2>
 		<c:set var="number" value="100" scope="request" />
