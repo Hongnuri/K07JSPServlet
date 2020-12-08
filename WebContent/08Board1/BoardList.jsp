@@ -101,7 +101,8 @@ dao.close();
 		<jsp:include page="../common/boardLeft.jsp" />
 		<div class="col-9 pt-3">
 		<!-- ### 게시판의 body 부분 start ### -->
-			<h3>게시판 - <small>이런저런 기능이 있는 게시판입니다.</small></h3>
+			<h3>자료실 - <small>Model2방식의 Servlet 게시판</small></h3>
+			<h4>${test }</h4>
 			
 			<div class="row">
 				<!-- 검색부분 -->
