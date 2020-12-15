@@ -22,7 +22,7 @@
 		<li>Integer타입 : 
 			<%=request.getAttribute("requestNumber") %></li>
 		<li>String타입 : 
-			<%=request.getAttribute("requestString") %></li>	 	
+			<%=request.getAttribute("requestString") %></li>		
 		<li>MemberDTO타입 : <%=m1Str %></li>
 	</ul>
 	

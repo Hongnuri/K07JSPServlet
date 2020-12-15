@@ -11,7 +11,7 @@
 	<h2>인클루드 된 페이지</h2>
 	
 	<h3>page영역에 저장된 객체</h3>
-	<% 
+	<%
 	MemberDTO pageMember =
 		(MemberDTO)pageContext.getAttribute("pageMember");
 	String pMemberStr = 

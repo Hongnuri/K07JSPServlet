@@ -13,7 +13,7 @@
 	<h2>자바코드를 통해 영역의 객체얻기</h2>
 	<%
 	/*
-		영역에 저장시 Object형으로 변환되므로 사용시에는 
+		영역에 저장시 Object형으로 변환되므로 사용시에는
 		본래의 형으로 변환해야 한다. 
 	*/
 	MemberDTO memberJ = (MemberDTO) request.getAttribute("member");

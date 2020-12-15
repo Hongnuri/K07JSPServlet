@@ -46,7 +46,7 @@ public class MyFileDAO {
 			psmt.setString(5, dto.getSfile());
 		
 			affected = psmt.executeUpdate();		
-		}
+		} 
 		catch(Exception e) {
 			System.out.println("insert중 예외발생");
 			e.printStackTrace();
@@ -88,5 +88,6 @@ public class MyFileDAO {
 		 
 		return fileList;
 	}
+	
 	
 }

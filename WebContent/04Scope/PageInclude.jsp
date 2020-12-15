@@ -20,7 +20,7 @@
 		<li>MemberDTO타입2 : 아이디:<%=m2.getId() %>,
 							비번:<%=m2.getPass() %>,
 							이름:<%=m2.getName() %>,
-							가입일:<%=m2.getRegidate() %></li>   
+							가입일:<%=m2.getRegidate() %></li>
 	</ul>
 </body>
 </html>

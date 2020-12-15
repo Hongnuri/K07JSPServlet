@@ -1,5 +1,5 @@
-<%@page import="model.MyFileDAO"%>
-<%@page import="model.MyFileDTO"%>
+<%@page import="model.MyFileDAO"%> 
+<%@page import="model.MyFileDTO"%> 
 <%@page import="java.util.Date"%>
 <%@page import="java.text.SimpleDateFormat"%>
 <%@page import="java.io.File"%>
@@ -10,7 +10,7 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%
-	//한글깨짐처리(post로 폼값전송시 깨짐 부분 처리)
+//한글깨짐처리(post로 폼값전송시 깨짐 부분 처리)
 request.setCharacterEncoding("UTF-8");
 
 //파일업로드를 위한 MultipartRequest객체의 파라미터 준비

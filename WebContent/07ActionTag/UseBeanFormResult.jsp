@@ -14,7 +14,7 @@ member1.setId(id);
 member1.setPass(pass);
 member1.setName(name);
 %>       
-<!DOCTYPE html> 
+<!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">

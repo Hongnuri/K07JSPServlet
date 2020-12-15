@@ -5,30 +5,27 @@
     pageEncoding="UTF-8"%>
 <%-- 글작성 페이지 진입전 로그인 체크하기 --%>    
 <%@ include file="../common/isLogin.jsp" %>
-<!DOCTYPE html>
-<html>
-<jsp:include page="../common/boardHead.jsp" />
 <%
 //파라미터로 전송된 게시물의 일련번호를 받음
 String num = request.getParameter("num");
-BbsDAO dao = new BbsDAO(application); 
+BbsDAO dao = new BbsDAO(application);
 
-// 본인이 작성한 게시물이므로 조회수 증가는 의미 없다.
+//본인이 작성한 게시물이므로 조회수 증가는 의미없음.
 
 //일련번호에 해당하는 게시물을 DTO객체로 반환함
-BbsDTO dto = dao.selectView(num); 
+BbsDTO dto = dao.selectView(num);
 
-// 본인 확인 후 , 작성자가 아니면 뒤로 보내기
-if(session.getAttribute("USER_ID").toString().equals(dto.getId())){
-	
-}
-else{
-	JavascriptUtil.jsAlertBack("작성자 본인만 수정 가능합니다." , out);
+//본인확인 후 작성자가 아니면 뒤로보내기
+if(!session.getAttribute("USER_ID").toString().equals(dto.getId())){
+	JavascriptUtil.jsAlertBack("작성자 본인만 수정 가능합니다.", out);
 	return;
 }
 
 dao.close();
 %> 
+<!DOCTYPE html>
+<html>
+<jsp:include page="../common/boardHead.jsp" />
 <body>
 <div class="container">
 	<div class="row">		
@@ -62,21 +59,23 @@ dao.close();
 	<table class="table table-bordered table-striped">
 	<form name="writeFrm" method="post" action="EditProc.jsp" 
 		onsubmit="return checkValidate(this);">
+	
+	<!--  
+		해당 게시물의 일련번호를 전송해야 수정이 가능하다. 
+		hidden속성으로 처리하면 화면에서는 숨김처리되지만, 
+		서버로는 값을 전송할 수 있다. 또한 update의 특성으로 
+		이해할수도 있다.
+		update 테이블 set 컬럼=값 -> where절이 없다면
+					모든게시물에 대한 수정이 된다. 
+	-->
+	<input type="hidden" name="num" value="<%=num %>" />		
 		
-	<!-- 
-		해당 게시물의 일련번호를 전송해야 수정이 가능하다.
-		hidden 속성으로 처리하면 화면에서는 숨김처리 되지만
-		서버로는 값을 전송할 수 있다. 또한 , update 의 특성으로 이해할 수도 있다.
-		update 테이블 set 컬럼=값 -> where 절이 없다면
-					모든 게시물에 대한 수정이 된다.
-	-->	
-	<input type="hidden" name="num" value="<%=num %>" />	
 	<colgroup>
 		<col width="20%"/>
 		<col width="*"/>
 	</colgroup>
 	<tbody>
-		<!-- <tr> 
+		<!-- <tr>
 			<th class="text-center align-middle">작성자</th>
 			<td>
 				<input type="text" class="form-control"	style="width:100px;"/>
@@ -95,7 +94,7 @@ dao.close();
 				style="vertical-align:middle;">제목</th>
 			<td>
 				<input type="text" class="form-control" 
-					name="title" value="<%=dto.getTitle() %>"/>
+					name="title" value="<%=dto.getTitle() %>" />
 			</td>
 		</tr>
 		<tr>

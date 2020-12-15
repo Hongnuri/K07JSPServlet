@@ -44,7 +44,6 @@ public class BbsDAO {
 		내장객체는 javax.servlet.ServletContext타입으로 
 		정의되었으므로 매개변수를 이와같이 정의해준다. 
 	 */
-	
 	public BbsDAO(ServletContext ctx) {
 		try {
 			Class.forName(ctx.getInitParameter("JDBCDriver"));
@@ -58,17 +57,18 @@ public class BbsDAO {
 			e.printStackTrace();
 		}
 	}
+	
 	/*
-		생성자 3 : 커넥션 풀(DBCP) 을 이용한 DB연결
-	*/
+	생성자3 : 커넥션풀(DBCP)을 이용한 DB연결
+	 */
 	public BbsDAO() {
-		try {
-			Context initctx = new InitialContext();
+		try {			
+			Context initctx = new InitialContext(); 
 			Context ctx = (Context)initctx.lookup("java:comp/env");
-			DataSource source = (DataSource)ctx.lookup("jdbc/myoracle"); 
+			DataSource source = (DataSource)ctx.lookup("jdbc/myoracle");
 			con = source.getConnection();
 			
-			System.out.println("DBCP연결성공");
+			System.out.println("DBCP 연결성공");
 		}
 		catch (Exception e) {
 			e.printStackTrace();
@@ -122,9 +122,9 @@ public class BbsDAO {
 		
 		return totalCount;
 	}
-
-// member 테이블과 join 해서 게시물 갯수를 카운트
-public int getTotalRecordCountSearch(Map<String, Object> map) {
+	
+	//member테이블과 join해서 게시물 갯수를 카운트
+	public int getTotalRecordCountSearch(Map<String, Object> map) {
 		
 		//게시물의 갯수는 최초 0으로 초기화
 		int totalCount = 0;
@@ -132,7 +132,7 @@ public int getTotalRecordCountSearch(Map<String, Object> map) {
 		//기본쿼리문(전체레코드를 대상으로 함)
 		String query = "SELECT COUNT(*) FROM board B "
 				+ " 		INNER JOIN member M "
-				+ "      		on B.id=M.id ";
+				+ "				ON B.id=M.id ";
 		
 		//JSP페이지에서 검색어를 입력한 경우 where절이 동적으로 추가된다.
 		if(map.get("Word")!=null) {
@@ -188,6 +188,113 @@ public int getTotalRecordCountSearch(Map<String, Object> map) {
 				dto.setVisitcount(rs.getString(6));
 
 				//DTO객체를 List컬렉션에 추가
+				bbs.add(dto);
+			}
+		}
+		catch(Exception e) {
+			System.out.println("Select시 예외발생");
+			e.printStackTrace();
+		}
+
+		return bbs;
+	}
+	
+	//게시판 리스트 출력 - 페이지처리 포함
+	public List<BbsDTO> selectListPage(Map<String,Object> map){
+
+		List<BbsDTO> bbs = new Vector<BbsDTO>();
+
+		//쿼리문이 아래와같이 페이지처리 쿼리문으로 변경됨.
+		String query = " "
+			+" SELECT * FROM ( "
+			+"	 SELECT Tb.*, ROWNUM rNum FROM ( "
+			+"	    SELECT * FROM board ";
+		if(map.get("Word")!=null)
+		{
+			query +=" WHERE "+ map.get("Column") +" "
+			  +" LIKE '%"+ map.get("Word") +"%' "; 
+		}
+		query += " "
+		    +"    	ORDER BY num DESC "
+		    +"    ) Tb "
+		    +" ) "
+		    +" WHERE rNum BETWEEN ? AND ?";
+		System.out.println("쿼리문:"+ query);
+		
+		try {
+			psmt = con.prepareStatement(query);
+				
+			//JSP에서 계산한 페이지 범위값을 이용해 인파라미터를 설정함.
+			psmt.setString(1, map.get("start").toString());
+			psmt.setString(2, map.get("end").toString());
+			
+			rs = psmt.executeQuery();
+
+			while(rs.next()) {
+				BbsDTO dto = new BbsDTO();
+
+				dto.setNum(rs.getString("num"));
+				dto.setTitle(rs.getString("title"));
+				dto.setContent(rs.getString("content"));
+				dto.setPostdate(rs.getDate("postdate"));
+				dto.setId(rs.getString("id"));
+				dto.setVisitcount(rs.getString("visitcount"));
+
+				bbs.add(dto);
+			}
+		}
+		catch(Exception e) {
+			System.out.println("Select시 예외발생");
+			e.printStackTrace();
+		}
+
+		return bbs;
+	}
+	
+	//게시판 리스트+페이지처리+회원이름으로 검색기능 추가
+	public List<BbsDTO> selectListPageSearch(Map<String,Object> map){
+
+		List<BbsDTO> bbs = new Vector<BbsDTO>();
+
+		//쿼리문이 아래와같이 페이지처리 쿼리문으로 변경됨.
+		String query = " "
+			+" SELECT * FROM ( "
+			+"	 SELECT Tb.*, ROWNUM rNum FROM ( "			
+			+"		SELECT B.*, M.name FROM board B " 
+			+"         INNER JOIN member M "
+			+"           ON B.id=M.id " ;
+		if(map.get("Word")!=null) {
+			query +="      WHERE "+map.get("Column")
+					+" LIKE '%"+map.get("Word")+"%' ";
+		}			
+		query +="		ORDER BY num DESC "
+			+"		) Tb "
+		    +" ) "
+		    +" WHERE rNum BETWEEN ? AND ?";
+		System.out.println("쿼리문:"+ query);
+		
+		try {
+			psmt = con.prepareStatement(query);
+				
+			//JSP에서 계산한 페이지 범위값을 이용해 인파라미터를 설정함.
+			psmt.setString(1, map.get("start").toString());
+			psmt.setString(2, map.get("end").toString());
+			
+			rs = psmt.executeQuery();
+
+			while(rs.next()) {
+				BbsDTO dto = new BbsDTO();
+
+				dto.setNum(rs.getString("num"));
+				dto.setTitle(rs.getString("title"));
+				dto.setContent(rs.getString("content"));
+				dto.setPostdate(rs.getDate("postdate"));
+				dto.setId(rs.getString("id"));
+				dto.setVisitcount(rs.getString("visitcount"));
+				
+				//member테이블과의 JOIN으로 이름이 추가됨
+				dto.setName(rs.getString("name"));
+
 				bbs.add(dto);
 			}
 		}
@@ -301,150 +408,46 @@ public int getTotalRecordCountSearch(Map<String, Object> map) {
 
 		return dto;
 	}
-	// 게시물 수정
+
+	//게시물 수정
 	public int updateEdit(BbsDTO dto) {
 		int affected = 0;
 		try {
 			String query = "UPDATE board SET "
 					+ " title=?, content=? "
 					+ " WHERE num=?";
-			
+
 			psmt = con.prepareStatement(query);
 			psmt.setString(1, dto.getTitle());
 			psmt.setString(2, dto.getContent());
 			psmt.setString(3, dto.getNum());
-			
+
 			affected = psmt.executeUpdate();
 		}
 		catch(Exception e) {
-			System.out.println("update 중 예외 발생");
+			System.out.println("update중 예외발생");
 			e.printStackTrace();
 		}
-		
+
 		return affected;
-	}	
+	}
 	
+	//게시물 삭제처리
 	public int delete(BbsDTO dto) {
 		int affected = 0;
 		try {
 			String query = "DELETE FROM board WHERE num=?";
-			
+
 			psmt = con.prepareStatement(query);
 			psmt.setString(1, dto.getNum());
-			
+
 			affected = psmt.executeUpdate();
 		}
 		catch(Exception e) {
-			System.out.println("delete 중 , 예외발생");
+			System.out.println("delete중 예외발생");
 			e.printStackTrace();
 		}
+
 		return affected;
-	}
-	
-	// 게시판 리스트 출력 - 페이지 처리 포함
-	public List<BbsDTO> selectListPage(Map<String,Object> map){
-		
-		List<BbsDTO> bbs = new Vector<BbsDTO>();
-		
-		// 쿼리문이 아래와 같이 페이지 처리 쿼리문으로 변경된다.
-		String query = " "
-				+" SELECT * FROM ( "
-				+"   SELECT Tb. *, ROWNUM rNum FROM ( "
-				+" 		SELECT * FROM board ";
-		if(map.get("Word")!=null)
-		{
-			query +=" WHERE "+ map.get("Column") +" "
-				+" LIKE '%"+ map.get("Word")+ "%' ";
-		}
-		query += " "
-			+"		ORDER BY num DESC "
-			+" 	)	Tb	"
-			+"	)	"
-			+"	WHERE rNum BETWEEN ? AND ?";
-		System.out.println("쿼리문 : " + query);
-		
-		try {
-			psmt = con.prepareStatement(query);
-			// JSP 에서 계산한 페이지 범위 값을 이용해 인파라미터를 설정한다.
-			psmt.setString(1,  map.get("start").toString());
-			psmt.setString(2,  map.get("end").toString());
-			
-			rs = psmt.executeQuery();
-			
-			while(rs.next()) {
-				BbsDTO dto = new BbsDTO();
-				
-				dto.setNum(rs.getString("num"));
-				dto.setTitle(rs.getString("title"));
-				dto.setContent(rs.getString("content"));
-				dto.setPostdate(rs.getDate("postdate"));
-				dto.setId(rs.getString("id"));
-				dto.setVisitcount(rs.getString("visitcount"));
-				
-				bbs.add(dto);
-			}
-			
-		}
-		catch(Exception e) {
-			System.out.println("Select시 예외발생");
-			e.printStackTrace();
-		}
-		return bbs;
-		
-	}
-// 게시판 리스트 + 페이지 처리 + 회원이름으로 검색 기능 추가	
-public List<BbsDTO> selectListPageSearch(Map<String,Object> map){
-		
-		List<BbsDTO> bbs = new Vector<BbsDTO>();
-		
-		// 쿼리문이 아래와 같이 페이지 처리 쿼리문으로 변경된다.
-		String query = " "
-				+" SELECT * FROM ( "
-				+"   SELECT Tb. *, ROWNUM rNum FROM ( "
-				+"	SELECT B.*, M.name FROM board B "
-				+"		INNER JOIN member M "
-	            +"  		ON B.id=M.id " ;
-		if(map.get("Word")!=null) {		
-	        query +=" 	WHERE "+map.get("Column")
-	        +" LIKE '%"+map.get("Word")+"%' ";
-		}        
-		query 	+= "		ORDER by num DESC 	"
-				+ "	)	Tb	"
-				+"	)	"
-				+"	WHERE rNum BETWEEN ? AND ?";
-		System.out.println("쿼리문 : " + query);
-		
-		try {
-			psmt = con.prepareStatement(query);
-			// JSP 에서 계산한 페이지 범위 값을 이용해 인파라미터를 설정한다.
-			psmt.setString(1,  map.get("start").toString());
-			psmt.setString(2,  map.get("end").toString());
-			
-			rs = psmt.executeQuery();
-			
-			while(rs.next()) {
-				BbsDTO dto = new BbsDTO();
-				
-				dto.setNum(rs.getString("num"));
-				dto.setTitle(rs.getString("title"));
-				dto.setContent(rs.getString("content"));
-				dto.setPostdate(rs.getDate("postdate"));
-				dto.setId(rs.getString("id"));
-				dto.setVisitcount(rs.getString("visitcount"));
-				
-				// member 테이블과의 JOIN 으로 이름이 추가 된다.
-				dto.setName(rs.getString("name"));
-				
-				bbs.add(dto);
-			}
-			
-		}
-		catch(Exception e) {
-			System.out.println("Select시 예외발생");
-			e.printStackTrace();
-		}
-		return bbs;
-}
-
-
+	}	
 }

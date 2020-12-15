@@ -16,7 +16,7 @@ String root = request.getSession()
 	.getServletContext().getRealPath("/");
 String savePath = root + "Upload";
 
-//파일명지정(서버에 저장된 파일명, 다운로드 할 원본 파일명)
+//파일명지정(서버에 저장된 파일명, 다운로드할 원본 파일명)
 String filename = request.getParameter("sName");
 String orgfilename = request.getParameter("oName"); 
 

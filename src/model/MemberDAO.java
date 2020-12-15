@@ -124,7 +124,7 @@ public class MemberDAO {
 		return dto;
 	}
 	
-	//로그인방법3 : DTO객체 대신 Map컬렉션에 회원정보를 저장후 반환한다.ㅣ
+	//로그인방법3 : DTO객체 대신 Map컬렉션에 회원정보를 저장후 반환한다.
 	public Map<String, String> getMemberMap(String id,
 			String pwd){
 		
@@ -138,6 +138,38 @@ public class MemberDAO {
 			psmt = con.prepareStatement(query);
 			psmt.setString(1, id);
 			psmt.setString(2, pwd);
+			rs = psmt.executeQuery();
+
+			//회원정보가 있다면 put()을 통해 정보를 저장한다.
+			if(rs.next()) {
+				maps.put("id", rs.getString(1));
+				maps.put("pass", rs.getString("pass"));
+				maps.put("name", rs.getString("name"));
+			}
+			else {
+				System.out.println("결과셋이 없습니다.");
+			}
+		}
+		catch(Exception e) {
+			System.out.println("getMemberDTO오류");
+			e.printStackTrace();
+		}
+
+		return maps;
+	}
+	
+	//아이디만 전달하면 회원정보를 Map컬렉션으로 반환
+	public Map<String, String> getMemberMap(String id){
+		
+		//회원정보를 저장할 Map컬렉션 생성
+		Map<String, String> maps = new HashMap<String, String>();
+
+		String query = "SELECT id, pass, name FROM "
+				+ " member WHERE id=?";
+
+		try {
+			psmt = con.prepareStatement(query);
+			psmt.setString(1, id);
 			rs = psmt.executeQuery();
 
 			//회원정보가 있다면 put()을 통해 정보를 저장한다.

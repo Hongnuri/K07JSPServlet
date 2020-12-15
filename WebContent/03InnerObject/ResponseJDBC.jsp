@@ -19,7 +19,7 @@ String url = application.getInitParameter("ConnectionURL");
 System.out.println(driver +" "+ url);//로그확인
 
 //model패키지에 정의된 MemberDAO클래스를 통해 오라클 연결을 시도한다.
-MemberDAO dao = new MemberDAO(driver, url); 
+MemberDAO dao = new MemberDAO(driver, url);
 
 //로그인 페이지에서 전송한 아이디, 패스워드 폼값을 받아 저장한다.
 String id = request.getParameter("user_id");

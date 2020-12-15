@@ -7,11 +7,11 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-public class CalculateServlet extends HttpServlet {
-	
+public class CalculateServlet extends HttpServlet{
+
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-	
+		
 		String fNum = req.getParameter("firstNum");
 		String sNum = req.getParameter("secondNum");
 		
@@ -21,7 +21,6 @@ public class CalculateServlet extends HttpServlet {
 		
 		int returnValue;
 		switch(op) {
-		
 		case "+":
 			returnValue = fnum + snum; break;
 		case "-":
@@ -29,13 +28,14 @@ public class CalculateServlet extends HttpServlet {
 		case "*":
 			returnValue = fnum * snum; break;
 		case "/":
-			returnValue = fnum / snum; break;
+			returnValue = fnum / snum; break;		
 		default:
 			returnValue = 0;
 		}
 		
-		req.setAttribute("calResult" , "연산결과=" + returnValue);
+		req.setAttribute("calResult", "연산결과="+ returnValue);
 		req.getRequestDispatcher("/13Servlet/HelloServlet.jsp")
 			.forward(req, resp);
-		}
+
 	}
+}

@@ -4,9 +4,9 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>02FoamAction.jsp</title>
+<title>02FormAction.jsp</title>
 <script>	
-	// JS 의 무기명 함수 형태로 폼값 체크. 전송방식과 전송경로 지정.
+	//JS의 무기명함수 형태로 폼값 체크. 전송방식과 전송경로 지정.
 	var frmCheck = function(){
 		var frm = document.frm;
 		
@@ -20,7 +20,6 @@
 		frm.method = "post";		
 	}
 </script>
-
 </head>
 <body>
 	<h2>폼값 전송하기</h2>

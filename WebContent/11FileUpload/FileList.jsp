@@ -22,7 +22,7 @@ File[] fileList = file.listFiles();
 <title>FileList.jsp</title>
 </head>
 <body>
-	<h2>업로드 된 파일 리스트 보기(디렉토리 읽어오기)</h2>
+	<h2>업로드된 파일 리스트 보기(디렉토리 읽어오기)</h2>
 	<ul>
 	<% 
 	int fileCnt = 1;
@@ -42,29 +42,37 @@ File[] fileList = file.listFiles();
 	}
 	%>
 	</ul>
-	<h2>DB에 등록 된 파일 리스트 보기</h2>
+	
+	
+
+	
+	<h2>DB에 등록된 파일 리스트 보기</h2>
 	<a href="FileUploadMain.jsp">
-		파일 등록하기
+		파일등록하기
 	</a>
-	<%
+	<% 
 	MyFileDTO dto = new MyFileDTO();
 	MyFileDAO dao = new MyFileDAO(application);
 	List<MyFileDTO> fileLists = dao.myFileList();
-	%>
+	//out.print(fileList.size());
+	%>	
 	<table border="1">
 	<% for(MyFileDTO f : fileLists){ %>
-		<tr>
-			<td><%=f.getIdx() %></td>
-			<td><%=f.getName() %></td>
-			<td><%=f.getTitle() %></td>
-			<td><%=f.getInter() %></td>
-			<td><%=f.getOfile() %></td>
-			<td><%=f.getSfile() %></td>
+		<tr> 
+			<td><%=f.getIdx() %></td>			
+			<td><%=f.getName() %></td>			
+			<td><%=f.getTitle() %></td>			
+			<td><%=f.getInter() %></td>			
+			<td><%=f.getOfile() %></td>			
+			<td><%=f.getSfile() %></td>			
 			<td><%=f.getPostdate() %></td>
-			<td><a
-			href="Download2.jsp?oName=<%=URLEncoder.encode(f.getOfile(),"UTF-8")%>&sName=<%=URLEncoder.encode(f.getSfile(),"UTF-8")%>">[다운로드]</a></td>
+			<td><a href="Download2.jsp?
+				oName=<%=URLEncoder.encode(f.getOfile(),"UTF-8")%>&
+				sName=<%=URLEncoder.encode(f.getSfile(),"UTF-8")%>">[다운로드]</a></td>
 		</tr>
-	<% } %>		
+	<% } %>
 	</table>
+	
+	
 </body>
 </html>

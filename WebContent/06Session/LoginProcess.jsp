@@ -14,7 +14,7 @@ String drv = application.getInitParameter("JDBCDriver");
 String url = application.getInitParameter("ConnectionURL");
 
 //DAO객체생성 및 DB연결
-MemberDAO dao = new MemberDAO(drv, url); 
+MemberDAO dao = new MemberDAO(drv, url);
 
 //폼값으로 받은 아이디,패스워드를 통해 로그인 처리 함수 호출
 boolean isMember = dao.isMember(id, pw);/*

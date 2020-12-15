@@ -12,7 +12,7 @@ request.setAttribute("member", new MemberDTO("Sung","9999","성춘향",null));
 %>    
 <!DOCTYPE html>
 <html>
-<head> 
+<head>
 <meta charset="UTF-8">
 <title>ParamAction.jsp</title>
 </head>

@@ -17,7 +17,7 @@ if("kosmo".equals(userid) && "1234".equals(userpw)){
 	
 	//로그인 성공시 회원 아이디를 쿠키로 생성한다. 
 	CookieUtil.makeCookie(request, response, "LoginId", "kosmo", 
-			60*60*24); 
+			60*60*24);
 	
 	//아이디 저장하기 체크박스를 ...
 	if(id_save==null){

@@ -12,7 +12,7 @@
 	
 	<h3>useBean 액션태그로 좁은의미의 자바빈 객체 생성하기</h3>
 	
-	<%--	 
+	<%--	
 	//1.request영역에 저장된 member객체를 가져온다. 
 	MemberDTO memberDTO = (MemberDTO)request.getAttribute("member");
 	if(memberDTO==null){

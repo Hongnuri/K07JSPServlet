@@ -9,9 +9,9 @@
 -->    
 <%
 /*
-	검색 후 , 파라미터 처리를 위한 추가부분
-		: 리스트에서 검색 후 , 상세보기
-		그리고 다시 리스트 보기를 눌렀을 때 , 검색이 유지되도록 처리하기 위한 코드
+검색후 파라미터 처리를 위한 추가부분
+	: 리스트에서 검색 후 상세보기, 그리고 다시 리스트보기를
+	눌렀을때 검색이 유지되도록 처리하기 위한 코드
 */
 String queryStr = "";
 String searchColumn = request.getParameter("searchColumn");
@@ -19,15 +19,14 @@ String searchWord = request.getParameter("searchWord");
 if(searchWord!=null){
 	queryStr += "searchColumn="+searchColumn+"&searchWord="+searchWord;
 }
-// 2페이지에서 상세보기를 했다면 리스트로 돌아갈 때도 페이지가 유지되어야한다.
+//2페이지에서 상세보기 했다면 리스트로 돌아갈때도 페이지가 유지되어야 한다.
 String nowPage = request.getParameter("nowPage");
 queryStr += "&nowPage="+nowPage;
+
 
 //파라미터로 전송된 게시물의 일련번호를 받음
 String num = request.getParameter("num");
 BbsDAO dao = new BbsDAO(application);
-
-
 
 //조회수를 업데이트하여 visitcount컬럼을 1증가시킴
 dao.updateVisitCount(num);
@@ -57,7 +56,7 @@ dao.close();
 					<col width="30%"/>
 					<col width="20%"/>
 					<col width="*"/>
-				</colgroup> 
+				</colgroup>
 				<tbody>
 					<tr>
 						<th class="text-center table-active align-middle">아이디</th>
@@ -91,38 +90,37 @@ dao.close();
 			</div>
 			<div class="row mb-3">
 				<div class="col-6">
-				<%
-				/*
-					로그인이 완료 된 상태에서만 수정/삭제 버튼을 보이게하고
-					또한 , 작성자에게만 노출되도록 한다. 작성자가 아니라면 버튼은 숨김처리 된다.
-				*/
-				if(session.getAttribute("USER_ID")!=null &&
-					session.getAttribute("USER_ID").toString().equals(dto.getId())){
-					
-				%>
-				<!-- 
-					게시물 수정하기는 특정게시물에 대해 수행되는 작업이므로
-					반드시 게시물의 일련번호(PK) 가 파라미터로 전달되어야 한다.
-					수정은 상세보기 + 글쓰기가 포함 된 형태로 구현해야한다.
-				-->
-					<button type="button" class="btn btn-secondary"
-						onclick="location.href='BoardEdit.jsp?num=<%=dto.getNum() %> ';">수정하기</button>
-					<button type="button" class="btn btn-success"
-						onclick="isDelete();">삭제하기</button>
 <%
-} 
+/*
+로그인이 완료된 상태에서만 수정/삭제 버튼을 보이게하고, 
+또한 작성자에게만 노출되도록 한다. 작성자가 아니라면 
+버튼은 숨김처리된다. 
+*/
+if(session.getAttribute("USER_ID")!=null &&
+	session.getAttribute("USER_ID").toString().equals(dto.getId())){
 %>
-<!-- 
-	게시물 삭제의 경우 로그인 된 상태이므로 해당 게시물의 일련번호만 서버로 전송하면 된다.
-	이 때 , hidden 폼을 사용하고 , JS 의 submit() 함수를 이용해서 폼값을 전송한다.
-	해당 form 태그는 HTML 문서 어디든 위치할 수 있다.
+	<!-- 게시물 수정하기는 특정게시물에 대해 수행되는 작업이므로
+	반드시 게시물의 일련번호(PK)가 파라미터로 전달되어야 한다. 
+	수정은 상세보기+글쓰기가 포함된 형태로 구현해야 한다.  -->
+	<button type="button" class="btn btn-secondary"
+		onclick="location.href='BoardEdit.jsp?num=<%=dto.getNum()%>';">수정하기</button>
+	<button type="button" class="btn btn-success"
+		onclick="isDelete();">삭제하기</button>
+<%
+}
+%> 
+<!--  
+	게시물 삭제의 경우 로그인된 상태이므로 해당 게시물의 일련번호만
+	서버로 전송하면 된다. 이때 hidden폼을 사용하고, JS의 submit()
+	함수를 이용해서 폼값을 전송한다. 해당 form태그는 HTML문서 어디든
+	위치할 수 있다. 
 -->
 <form name="deleteFrm">
-	<input type="hidden" name="num" value="<%=dto.getNum() %>" />
+	<input type="hid-den" name="num" value="<%=dto.getNum() %>" />
 </form>
 <script>
 	function isDelete(){
-		var c = confirm("삭제할까요 ?");
+		var c = confirm("삭제할까요?");
 		if(c){
 			var f = document.deleteFrm;
 			f.method = "post";
@@ -134,7 +132,7 @@ dao.close();
 				</div>
 				<div class="col-6 text-right pr-5">					
 					<button type="button" class="btn btn-warning" 
-					onclick="location.href='BoardList.jsp?<%=queryStr%>';">리스트보기</button>
+						onclick="location.href='BoardList.jsp?<%=queryStr%>';">리스트보기</button>
 				</div>	
 			</div>
 		<!-- ### 게시판의 body 부분 end ### -->

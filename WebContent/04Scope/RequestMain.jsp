@@ -24,7 +24,7 @@ request.setAttribute("requestMember1", new MemberDTO(
 			<%=request.getAttribute("requestString") %></li>
 		<%
 		MemberDTO member = 
-			(MemberDTO)request.getAttribute("requestMember1"); 
+			(MemberDTO)request.getAttribute("requestMember1");
 		%>
 		<li>MemberDTO타입 : 
 			아이디 : <%=member.getId() %>,

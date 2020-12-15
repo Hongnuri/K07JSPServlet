@@ -18,7 +18,7 @@
 	상수를 공유할 목적으로 사용한다. web.xml에 <context-param> 
 	엘리먼트를 통해 등록하게된다. 이를 컨텍스트 초기화 파라미터 라고한다.
 	--%>
-	<h3>web.xml에 설정한 내용 읽어오기</h3> 
+	<h3>web.xml에 설정한 내용 읽어오기</h3>
 	<ul>
 		<li>오라클드라이버 : 
 		<%=application.getInitParameter("JDBCDriver") %></li>

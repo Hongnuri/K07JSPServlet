@@ -17,4 +17,4 @@ CookieUtil.makeCookie(request, response, "LoginId", "", 0);
 <script>
 	alert("로그아웃 되었습니다.");
 	location.href="CookieLoginMain.jsp";
-</script> 
+</script>

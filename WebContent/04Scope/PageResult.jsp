@@ -28,7 +28,7 @@
 	%>	
 	<ul>
 		<li>Date객체 : <%=dateString %></li>
-		<li>MemberDTO객체 : <%=m1Str %></li> 
+		<li>MemberDTO객체 : <%=m1Str %></li>
 	</ul>
 
 </body>
